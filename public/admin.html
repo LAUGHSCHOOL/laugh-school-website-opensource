@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin | LAUGH SCHOOL™</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Noto+Sans:ital,wght@0,400;0,500;0,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0F0F13;
+  --surface: #17171E;
+  --surface2: #1F1F2A;
+  --border: rgba(255,255,255,.08);
+  --gold: #FFD60A;
+  --gold2: #FF9500;
+  --pink: #F72585;
+  --txt: #EEEEF5;
+  --muted: #8B8BAC;
+  --fh: 'Unbounded', sans-serif;
+  --fb: 'Noto Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  font-family: var(--fb);
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,.014) 3px, rgba(255,255,255,.014) 4px),
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(255,214,10,.12), transparent 68%),
+    var(--bg);
+  color: var(--txt);
+}
+header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 5vw;
+  background: rgba(15,15,19,.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,214,10,.18);
+}
+.logo {
+  font-family: var(--fh);
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+.top-actions { display: flex; gap: .7rem; align-items: center; }
+main {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem) 5vw;
+}
+.eyebrow {
+  color: var(--gold);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+h1 {
+  font-family: var(--fh);
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  line-height: .95;
+  margin-bottom: 1rem;
+}
+.sub { color: var(--muted); line-height: 1.7; max-width: 720px; margin-bottom: 2rem; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, .85fr) minmax(0, 1.15fr);
+  gap: 1rem;
+  align-items: start;
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.panel h2 {
+  font-family: var(--fh);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.field { display: grid; gap: .45rem; margin-bottom: 1rem; }
+label {
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+input, textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--txt);
+  font: inherit;
+  padding: .8rem .9rem;
+  outline: none;
+}
+textarea { min-height: 150px; resize: vertical; line-height: 1.55; }
+input:focus, textarea:focus { border-color: rgba(255,214,10,.55); }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: .7rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #000; }
+.btn-ghost { background: var(--surface2); border-color: var(--border); color: var(--txt); }
+.btn-danger { background: rgba(247,37,133,.12); border-color: rgba(247,37,133,.45); color: var(--txt); }
+.btn:disabled { cursor: not-allowed; opacity: .55; }
+.hidden { display: none !important; }
+.status {
+  min-height: 1.4rem;
+  margin-top: .85rem;
+  color: var(--muted);
+  font-size: .84rem;
+  line-height: 1.5;
+}
+.status.error { color: #ff8ba7; }
+.status.ok { color: var(--gold); }
+.debug-box {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.user-line {
+  color: var(--muted);
+  font-size: .82rem;
+  margin-bottom: 1rem;
+  word-break: break-word;
+}
+.announcement-list { display: grid; gap: .8rem; }
+.announcement {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: 1rem;
+}
+.announcement-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .45rem;
+}
+.announcement-title { font-weight: 800; line-height: 1.35; }
+.announcement-date {
+  color: var(--muted);
+  font-size: .72rem;
+  white-space: nowrap;
+}
+.announcement-body {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: .9rem;
+  margin-bottom: .85rem;
+}
+.announcement-actions { display: flex; gap: .6rem; flex-wrap: wrap; }
+@media (max-width: 780px) {
+  header { padding: 0 1rem; }
+  main { padding: 2rem 1rem; }
+  .layout { grid-template-columns: 1fr; }
+  .top-actions { gap: .45rem; }
+  .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">😂 LAUGH SCHOOL™ ADMIN</a>
+  <div class="top-actions">
+    <a class="btn btn-ghost" href="/">Site</a>
+    <button class="btn btn-ghost hidden" id="logoutBtn" type="button">Logout</button>
+  </div>
+</header>
+
+<main>
+  <div class="eyebrow">Firebase Control Room</div>
+  <h1>Announcements</h1>
+  <p class="sub">Post announcements to Firestore. The homepage reads published announcements automatically and keeps the static ones as a fallback.</p>
+
+  <section class="layout">
+    <form class="panel" id="loginPanel">
+      <h2>Admin Login</h2>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn btn-gold" id="loginBtn" type="submit">Login</button>
+      <button class="btn btn-ghost" id="googleLoginBtn" type="button" style="margin-top:.7rem;">Login with Google</button>
+      <button class="btn btn-ghost" id="googleRedirectBtn" type="button" style="margin-top:.7rem;">Google redirect login</button>
+      <p class="status" id="loginStatus"></p>
+      <p class="debug-box" id="debugBox"></p>
+    </form>
+
+    <section class="panel hidden" id="adminPanel">
+      <p class="user-line" id="userLine"></p>
+      <h2>New Announcement</h2>
+      <form id="announcementForm">
+        <div class="field">
+          <label for="title">Title</label>
+          <input id="title" name="title" maxlength="80" placeholder="UPDATE" required>
+        </div>
+        <div class="field">
+          <label for="body">Announcement</label>
+          <textarea id="body" name="body" maxlength="600" placeholder="Write the announcement..." required></textarea>
+        </div>
+        <button class="btn btn-gold" id="publishBtn" type="submit">Post Announcement</button>
+        <p class="status" id="publishStatus"></p>
+      </form>
+    </section>
+
+    <section class="panel hidden" id="listPanel">
+      <h2>Published</h2>
+      <div class="announcement-list" id="announcementList"></div>
+      <p class="status" id="listStatus"></p>
+    </section>
+  </section>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="/__/firebase/init.js"></script>
+<script>
+const loginPanel = document.getElementById('loginPanel');
+const adminPanel = document.getElementById('adminPanel');
+const listPanel = document.getElementById('listPanel');
+const logoutBtn = document.getElementById('logoutBtn');
+const loginStatus = document.getElementById('loginStatus');
+const publishStatus = document.getElementById('publishStatus');
+const listStatus = document.getElementById('listStatus');
+const userLine = document.getElementById('userLine');
+const announcementList = document.getElementById('announcementList');
+const allowedAdmins = ['ellosanwertios2@gmail.com', 'stogiasteo@gmail.com'];
+const loginBtn = document.getElementById('loginBtn');
+const googleLoginBtn = document.getElementById('googleLoginBtn');
+const googleRedirectBtn = document.getElementById('googleRedirectBtn');
+const debugBox = document.getElementById('debugBox');
+let loginWatchdog = null;
+
+function setStatus(el, text, type) {
+  el.textContent = text || '';
+  el.className = `status ${type || ''}`.trim();
+}
+
+function setLoginBusy(isBusy, message) {
+  loginBtn.disabled = isBusy;
+  googleLoginBtn.disabled = isBusy;
+  googleRedirectBtn.disabled = isBusy;
+  if (message) setStatus(loginStatus, message, '');
+}
+
+function writeDebug(message) {
+  if (!debugBox) return;
+  const time = new Date().toLocaleTimeString('el-GR');
+  debugBox.textContent = `[${time}] ${message}`;
+}
+
+window.addEventListener('error', (event) => {
+  writeDebug(`Script error: ${event.message}`);
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  const reason = event.reason || {};
+  writeDebug(`Unhandled error: ${reason.code || ''} ${reason.message || reason}`);
+});
+
+function clearLoginWatchdog() {
+  if (loginWatchdog) clearTimeout(loginWatchdog);
+  loginWatchdog = null;
+}
+
+function startLoginWatchdog(message, ms) {
+  clearLoginWatchdog();
+  loginWatchdog = setTimeout(() => {
+    setLoginBusy(false);
+    setStatus(loginStatus, message, 'error');
+    writeDebug(message);
+  }, ms);
+}
+
+function readableAuthError(error) {
+  const code = error && error.code;
+  const map = {
+    'auth/admin-restricted-operation': 'This sign-in method is disabled in Firebase Authentication.',
+    'auth/cancelled-popup-request': 'The previous Google login popup was cancelled.',
+    'auth/email-already-in-use': 'That email is already used by another sign-in method.',
+    'auth/invalid-credential': 'Invalid email or password.',
+    'auth/invalid-email': 'Enter a valid email address.',
+    'auth/operation-not-allowed': 'This sign-in provider is not enabled in Firebase Authentication.',
+    'auth/popup-blocked': 'The browser blocked the Google popup. Allow popups for this site and try again.',
+    'auth/popup-closed-by-user': 'The Google popup was closed before login finished.',
+    'auth/unauthorized-domain': 'This domain is not allowed in Firebase Authentication. Add it under Authentication > Settings > Authorized domains.',
+    'auth/user-not-found': 'No user exists for that email.',
+    'auth/wrong-password': 'Wrong password.'
+  };
+  return map[code] || error.message || 'Login failed.';
+}
+
+function formatDate(value) {
+  let date = value;
+  if (value && typeof value.toDate === 'function') date = value.toDate();
+  if (!(date instanceof Date) || isNaN(date.getTime())) date = new Date();
+  return date.toLocaleDateString('el-GR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function requireFirebase() {
+  if (!window.firebase || !firebase.apps || !firebase.apps.length || !firebase.auth || !firebase.firestore) {
+    throw new Error('Firebase is not initialized. Deploy to Firebase Hosting, then open /admin.html from your Firebase URL.');
+  }
+  writeDebug(`Firebase loaded. Apps: ${firebase.apps.length}. Auth domain: ${firebase.app().options.authDomain || 'missing'}. Current URL: ${location.href}`);
+}
+
+function isAllowedAdmin(user) {
+  return !!user && allowedAdmins.includes((user.email || '').toLowerCase());
+}
+
+function renderList(snapshot) {
+  announcementList.textContent = '';
+  if (snapshot.empty) {
+    setStatus(listStatus, 'No announcements yet.', '');
+    return;
+  }
+
+  setStatus(listStatus, '', '');
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    const card = document.createElement('article');
+    card.className = 'announcement';
+
+    const top = document.createElement('div');
+    top.className = 'announcement-top';
+
+    const title = document.createElement('div');
+    title.className = 'announcement-title';
+    title.textContent = data.title || 'Ανακοίνωση';
+
+    const date = document.createElement('div');
+    date.className = 'announcement-date';
+    date.textContent = formatDate(data.publishedAt);
+
+    const body = document.createElement('p');
+    body.className = 'announcement-body';
+    body.textContent = data.body || '';
+
+    const actions = document.createElement('div');
+    actions.className = 'announcement-actions';
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'btn btn-danger';
+    deleteBtn.type = 'button';
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.addEventListener('click', async () => {
+      if (!confirm('Delete this announcement?')) return;
+      await firebase.firestore().collection('announcements').doc(doc.id).delete();
+    });
+
+    actions.appendChild(deleteBtn);
+    top.append(title, date);
+    card.append(top, body, actions);
+    announcementList.appendChild(card);
+  });
+}
+
+function watchAnnouncements() {
+  return firebase.firestore()
+    .collection('announcements')
+    .orderBy('publishedAt', 'desc')
+    .limit(20)
+    .onSnapshot(renderList, (error) => {
+      setStatus(listStatus, error.message, 'error');
+    });
+}
+
+document.getElementById('loginPanel').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  setLoginBusy(true, 'Logging in...');
+  startLoginWatchdog('Login is taking too long. Make sure Email/Password sign-in is enabled in Firebase Authentication, then reload and try again.', 12000);
+
+  try {
+    requireFirebase();
+    writeDebug('Starting email/password sign-in...');
+    await firebase.auth().signInWithEmailAndPassword(
+      document.getElementById('email').value.trim(),
+      document.getElementById('password').value
+    );
+    clearLoginWatchdog();
+    setStatus(loginStatus, '', '');
+    writeDebug('Email/password sign-in completed.');
+  } catch (error) {
+    clearLoginWatchdog();
+    setStatus(loginStatus, readableAuthError(error), 'error');
+    writeDebug(`${error.code || 'auth/error'}: ${error.message || error}`);
+  } finally {
+    setLoginBusy(false);
+  }
+});
+
+document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+  setLoginBusy(true, 'Opening Google login...');
+  startLoginWatchdog('Google popup login is taking too long. Use the Google redirect login button instead.', 12000);
+
+  try {
+    requireFirebase();
+    const provider = new firebase.auth.GoogleAuthProvider();
+    writeDebug('Starting Google popup sign-in...');
+    await firebase.auth().signInWithPopup(provider);
+    clearLoginWatchdog();
+    setStatus(loginStatus, '', '');
+    writeDebug('Google popup sign-in completed.');
+  } catch (error) {
+    clearLoginWatchdog();
+    setStatus(loginStatus, readableAuthError(error), 'error');
+    writeDebug(`${error.code || 'auth/error'}: ${error.message || error}`);
+  } finally {
+    setLoginBusy(false);
+  }
+});
+
+document.getElementById('googleRedirectBtn').addEventListener('click', async () => {
+  setLoginBusy(true, 'Redirecting to Google...');
+
+  try {
+    requireFirebase();
+    const provider = new firebase.auth.GoogleAuthProvider();
+    writeDebug('Starting Google redirect sign-in...');
+    await firebase.auth().signInWithRedirect(provider);
+  } catch (error) {
+    setStatus(loginStatus, readableAuthError(error), 'error');
+    writeDebug(`${error.code || 'auth/error'}: ${error.message || error}`);
+    setLoginBusy(false);
+  }
+});
+
+document.getElementById('announcementForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  setStatus(publishStatus, 'Posting...', '');
+
+  try {
+    const title = document.getElementById('title').value.trim();
+    const body = document.getElementById('body').value.trim();
+    if (!title || !body) throw new Error('Title and announcement are required.');
+
+    await firebase.firestore().collection('announcements').add({
+      title,
+      body,
+      published: true,
+      publishedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      authorEmail: firebase.auth().currentUser.email
+    });
+
+    event.target.reset();
+    setStatus(publishStatus, 'Announcement posted.', 'ok');
+  } catch (error) {
+    setStatus(publishStatus, error.message, 'error');
+  }
+});
+
+logoutBtn.addEventListener('click', () => firebase.auth().signOut());
+
+try {
+  requireFirebase();
+  let unsubscribe = null;
+  firebase.auth().getRedirectResult().catch((error) => {
+    setStatus(loginStatus, readableAuthError(error), 'error');
+  });
+
+  firebase.auth().onAuthStateChanged((user) => {
+    if (unsubscribe) {
+      unsubscribe();
+      unsubscribe = null;
+    }
+
+    if (user && !isAllowedAdmin(user)) {
+      firebase.auth().signOut();
+      loginPanel.classList.remove('hidden');
+      adminPanel.classList.add('hidden');
+      listPanel.classList.add('hidden');
+      logoutBtn.classList.add('hidden');
+      userLine.textContent = '';
+      setStatus(loginStatus, `${user.email} is not authorized for this admin panel.`, 'error');
+      return;
+    }
+
+    const signedIn = isAllowedAdmin(user);
+    loginPanel.classList.toggle('hidden', signedIn);
+    adminPanel.classList.toggle('hidden', !signedIn);
+    listPanel.classList.toggle('hidden', !signedIn);
+    logoutBtn.classList.toggle('hidden', !signedIn);
+    userLine.textContent = signedIn ? `Signed in as ${user.email}` : '';
+
+    if (signedIn) {
+      setStatus(loginStatus, '', '');
+      unsubscribe = watchAnnouncements();
+    }
+  });
+} catch (error) {
+  setStatus(loginStatus, error.message, 'error');
+}
+</script>
+</body>
+</html>

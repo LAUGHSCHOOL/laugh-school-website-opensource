@@ -1,0 +1,15 @@
+{
+  "name": "LAUGH SCHOOL™",
+  "short_name": "Laugh School",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F0F13",
+  "theme_color": "#FFD60A",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
