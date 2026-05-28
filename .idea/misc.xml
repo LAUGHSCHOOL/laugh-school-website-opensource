@@ -3,4 +3,8 @@
   <component name="ExternalResourceManagerImpl">
     <resource url="http://www.sitemaps.org/schemas/sitemap/0.9" location="$PROJECT_DIR$/.idea/schemas/sitemap.xsd" />
   </component>
+  <component name="ProjectResources">
+    <resource url="https://www.sitemaps.org/schemas/sitemap/0.9" location="$PROJECT_DIR$" />
+    <xml-schema-version>XMLSchema_1_1</xml-schema-version>
+  </component>
 </project>
